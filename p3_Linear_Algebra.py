@@ -26,7 +26,7 @@
 # 
 # 首先，导入你所需的软件包。一般我们建议在工程开头导入**所有**需要的软件包。
 
-# In[1]:
+# In[2]:
 
 
 # TODO: import相关库
@@ -126,16 +126,16 @@ import matplotlib.pyplot as plt
 # 
 # 
 
-# In[3]:
+# In[8]:
 
 
 # 1.1.1 TODO：
 v = np.array([4,1])
-w = np.array([-2,1])
+w = np.array([-1,2])
 
-v_1 = 2 * v
+v_1 = np.dot(2, v)
+x = v_1 - w
 w_1 = -w
-x = v_1 + w_1
 
 ax = plt.axes()
 
@@ -192,7 +192,7 @@ plt.show()
 # \end{cases}
 # $$
 
-# In[7]:
+# In[10]:
 
 
 from numpy import linalg
@@ -216,7 +216,7 @@ def check_vector_span(set_of_vectors, vector_to_check):
     return vector_of_scalars
 
 
-# In[42]:
+# In[24]:
 
 
 # 1.1.2 TODO
@@ -225,9 +225,16 @@ vw = np.array([[2,-1],[0.1, -1]])
 
 solution_1_1_2 = check_vector_span(vw, t)
 
-plt.plot([-0.5,0],[0,1],'b',linewidth=3)
-plt.plot([-5,5.5],[0,-6],'c-.',linewidth=3)
+
+plt.plot([2,3],[5,7],'b',linewidth=2)
+plt.plot([2,3],[6.2,6.3],'c-.',linewidth=2)
+plt.plot(solution_1_1_2[0],solution_1_1_2[1],'or')
+
+plt.xlim(2,3)
+plt.ylim(5,7)
+plt.grid(b=True, which='major')
 plt.xlabel('Single Solution')
+
 plt.show()
 
 print(solution_1_1_2)
@@ -250,7 +257,7 @@ print(solution_1_1_2)
 # \end{bmatrix}
 # $$
 
-# In[35]:
+# In[38]:
 
 
 # 1.2.1 TODO
@@ -258,17 +265,18 @@ A = np.array([[21,7],[15,42],[9,6]])
 
 B = np.array([4,33])
 
-AB = A * B
+AB = np.dot(A, B)
 
 AB_T = AB.T
 
 print(AB_T)
+print(A.T)
+print(B.T)
 
-ABT_0 = A.T[0] * B.T[0]
-ABT_1 = A.T[1] * B.T[1]
+BTAT = np.dot(B.T, A.T)
+print(BTAT)
 
-print(np.equal(ABT_0, AB_T[0]))
-print(np.equal(ABT_1, AB_T[1]))
+print(np.equal(BTAT, AB_T))
 
 
 # #### 1.2.2
@@ -291,7 +299,7 @@ print(np.equal(ABT_1, AB_T[1]))
 # \end{bmatrix}
 # $$
 
-# In[29]:
+# In[28]:
 
 
 # 1.2.2 TODO
@@ -299,8 +307,8 @@ A = np.array([[9,3], [8,4], [7,6]])
 B = np.array([5,2])
 C = np.array([5,7])
 
-AB_C = A * (B + C)
-AB_AC = A* B + A * C
+AB_C = np.dot(A, (B + C))
+AB_AC = np.dot(A, B) + np.dot(A, C)
 
 print(AB_C)
 print(AB_AC)
@@ -360,16 +368,24 @@ print(np.equal(AB_C, AB_AC))
 # $$
 # 并用LaTeX公式写出$A^{-1}$是多少（小数分数皆可）
 
-# In[89]:
+# In[41]:
 
 
 # 2.2.1 TODO
-print(solution_1_1_2)
-print(np.matrix(solution_1_1_2).I)
+from numpy.linalg import inv
+A = np.array([[2, -1],[0.1, -1]])
+print(A)
+A_1 = inv(A)
+print(A_1)
+b = np.array([-1,-6])
+solution_2_2_1 = np.dot(A_1,b)
+print(solution_2_2_1)
+
+print(np.equal(solution_2_2_1, solution_1_1_2))
 
 
-# $A^{-1} = [[0.05701939]
-#  [0.13570614]]$
+# $A^{-1} = [[ 0.52631579,0.05263158]
+#  [-0.52631579,-1.05263158]]$
 
 # #### 2.2.2
 # 
@@ -377,7 +393,7 @@ print(np.matrix(solution_1_1_2).I)
 # 
 # 2、计算第一问生成的对角矩阵与向量$[6,7,1,2,5,9]^{T}$的乘积
 
-# In[51]:
+# In[49]:
 
 
 # 2.2.2 TODO
@@ -399,7 +415,7 @@ c_v = np.array(l_v)
 print(c_v)
 
 v_T = np.array([6,7,1,2,5,9]).T
-print(v_T * v)
+print(np.dot(v_T, c_v))
 
 
 # ## 3、迹运算
@@ -439,7 +455,7 @@ print(v_T * v)
 # \end{bmatrix}
 # $$
 
-# In[52]:
+# In[55]:
 
 
 # 3 TODO
